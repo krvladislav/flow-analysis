@@ -472,5 +472,72 @@ namespace ConsoleApp
             CollectionAssert.AreEquivalent(new [] { 1 }, result.ReturnValues.ToArray());
         }
 
+
+
+        [TestMethod]
+        public void Test_LiteralsBound10Exceeded_StaticAnalysis()
+        {
+            var code = @"
+﻿﻿using System;
+
+namespace ConsoleApp
+{
+    class Program
+    {
+        static void Main() {}
+        
+        static int Evaluate(params bool[] parameters)
+        {
+            int x;
+            x = 1;
+            if (parameters[0])
+            {
+                x = 2;
+            }
+            if (parameters[1])
+            {
+                x = 3;
+            }
+            if (parameters[2])
+            {
+                x = 4;
+            }
+            if (parameters[3])
+            {
+                x = 5;
+            }
+            if (parameters[4])
+            {
+                x = 6;
+            }
+            if (parameters[5])
+            {
+                x = 7;
+            }
+            if (parameters[6])
+            {
+                x = 8;
+            }
+            if (parameters[7])
+            {
+                x = 9;
+            }
+            if (parameters[8])
+            {
+                x = 10;
+            }
+            if (parameters[9])
+            {
+                x = 11;
+            }
+            return x;
+        }
+    }
+}
+";
+
+            var result = ProblemSolver.Run(code, AnalysisType.Static);
+            Assert.IsFalse(result.Success);
+        }
     }
 }
